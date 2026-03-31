@@ -3,8 +3,11 @@ package com.lusia.timer;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -12,11 +15,16 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import java.util.ArrayList;
+
 public class MainActivity extends AppCompatActivity {
     private int sekundy = 0;
     private TextView textView;
     private boolean czyDziala = false;
     private Button buttonStart, buttonStop, buttonReset, buttonZapisz;
+    ArrayList<String> arrayListCzasy = new ArrayList<>();
+    ArrayAdapter<String> arrayAdapter;
+    ListView listView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +41,9 @@ public class MainActivity extends AppCompatActivity {
         buttonStop = findViewById(R.id.buttonStop);
         buttonReset = findViewById(R.id.buttonReset);
         buttonZapisz = findViewById(R.id.buttonZapisz);
+        listView = findViewById(R.id.listViewCzas);
+        arrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, arrayListCzasy);
+        listView.setAdapter(arrayAdapter);
         Handler handler = new Handler();
         handler.post(new Runnable() {
             @Override
@@ -62,7 +73,14 @@ public class MainActivity extends AppCompatActivity {
                 sekundy = 0;
             }
         });
-
+        buttonZapisz.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(MainActivity.this, "k", Toast.LENGTH_SHORT).show();
+                arrayListCzasy.add(wyswietlCzas(sekundy));
+                arrayAdapter.notifyDataSetChanged();
+            }
+        });
     }
     private String wyswietlCzas(int ile){
         int sekundy = ile%60;

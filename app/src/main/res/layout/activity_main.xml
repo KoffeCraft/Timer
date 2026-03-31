@@ -41,7 +41,7 @@
         android:text="ZAPISZ" />
 
     <ListView
-        android:id="@+id/ListViewCzas"
+        android:id="@+id/listViewCzas"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
